@@ -1,6 +1,6 @@
 """ code file of the gui interface for visualizing the projects
 """
-
+#start of the code
 import pygame
 import sys
 import re
