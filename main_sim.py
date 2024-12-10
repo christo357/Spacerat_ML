@@ -11,7 +11,7 @@ import bot2 as bot2s
 
 # Constants
 SIZE = 30
-TRIALS = 100
+TRIALS = 500
 CELL_SIZE = 15
 RANDOM_SEED = 42
 GRID_WIDTH = SIZE
@@ -21,7 +21,7 @@ WINDOW_HEIGHT = GRID_HEIGHT * CELL_SIZE
 RESULT_FOLDER = "sims"
 
 
-resultFolder = "results_sims"
+resultFolder = "results_sims_steps"
         
 def create_folder_if_not_exists(folder_path):
     if not os.path.exists(folder_path):

@@ -2,6 +2,7 @@ from ship import Ship
 import json
 import pandas as pd
 import os
+import numpy as np
 from datetime import datetime
 
 class Logger():
@@ -11,7 +12,19 @@ class Logger():
         self.resultPath = resultPath
         self.simPath = simPath
         self.bot_start = (0,0)
+        self.ship_list = self.createShipList()
 
+    def createShipList(self):
+        ship_list = np.zeros((30,30))
+        for row in range(self.size):
+            for col in range(self.size):
+                val = self.ship.get_cellval(row,col)
+                if val=='o':
+                    ship_list[row][col] = 1
+                else:
+                    ship_list[row][col] =0
+        return ship_list.tolist()
+                    
     # Function to log metadata (grid size, bot, and switch location) to result.txt
     def log_metadata(self):
         
@@ -45,21 +58,23 @@ class Logger():
             file.write(f"Bot start: {self.bot_start}\n")
             file.write(f"Bot: {bot}\n")
             file.write(f"Rat: {rat}\n")
-            # for i in range(0, bot_count):
-            #     bot_row, bot_col = ship.getBotLoc(i)
-            #     file.write(f"Bot {i+1}: ({bot_row}, {bot_col})\n")
             file.write("-" * 40 + "\n")      
             
             
     def log_belief(self, belief_list, step_list , tot_steps, output_folder):
         data = []
-        step_list = [tot_steps-steps for steps in step_list]
-        for array, integer in zip(belief_list, step_list):
-            array_as_string = array.tolist()  # Convert array to a nested list
-            data.append([array_as_string, integer])  # Store as record
+        remaining_steps = [tot_steps-steps for steps in step_list]
+        
+        for belief, steps, r_steps in zip(belief_list, step_list, remaining_steps):
+            belief_as_list = belief.tolist()  # Convert belief to a nested list
+            
+            data.append([belief_as_list,self.ship_list,steps, r_steps])  # Store as record
 
         # Create the DataFrame
-        df = pd.DataFrame(data, columns=["array", "integer"])
+        df = pd.DataFrame(data, columns=["belief",
+                                         "ship",
+                                         "steps",
+                                         "remain"])
         
         # Generate a unique filename using timestamp
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
