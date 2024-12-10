@@ -10,7 +10,7 @@ from logger import Logger
 
 
 class Bot:
-    def __init__(self,  ship:Ship , r:int, c:int, alpha:float,  seed: int, resultPath: str ):
+    def __init__(self,  ship:Ship , r:int, c:int, alpha:float,  seed: int, resultPath: str, simPath: str ):
         self.random = random.Random(seed)
         self.id = 1
         self.r = r
@@ -32,6 +32,7 @@ class Bot:
         self.shipSize = self.ship.getSize()
         self.imgpath = 'images/bot2.png'
         self.resultPath = resultPath
+        self.simPath = simPath
         self.alpha = alpha
         
         self.openCells = self.ship.getOpenCells()
@@ -43,7 +44,7 @@ class Bot:
         self.movdirs =''
         self.movdisp = []
         
-        self.logger = Logger(self.shipSize, self.ship, self.resultPath)
+        self.logger = Logger(self.shipSize, self.ship, self.resultPath, self.simPath)
     
     
     def getStart(self):
@@ -337,6 +338,8 @@ class Bot:
     def findRat(self):
         loc_rat = self.ship.getRatloc()
         print(f"RatLoc: {loc_rat}")
+        belief_list = []
+        step_list = []
                 
         # Divide the ship into 9 regions (3x3 grid of 10x10 cells each)
         self.regions = {
@@ -357,8 +360,13 @@ class Bot:
         move = 0
         loc = self.getloc()
         r, c= loc
-        while rat_found ==0 : 
+        steps = 0
+        while rat_found ==0 and self.t<30: 
             self.logger.log_grid_state(self.t, self.getloc(), loc_rat)
+            # self.logger.log_belief(self.belief)
+            belief_list.append(self.belief)
+            step_list.append(steps)
+            steps += 1
             self.t+=1
             loc = self.getloc()
             (r,c) = loc
@@ -410,4 +418,5 @@ class Bot:
                         self.belief[r,c] = 0
                     if loc == dest:
                         a_star = 0
+        self.logger.log_belief(belief_list, step_list, self.t, self.simPath)
         return self.t

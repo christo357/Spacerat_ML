@@ -4,23 +4,24 @@
 import os
 import random
 from ship import Ship
-import bot1 as bot1s
+# import bot1 as bot1s
 import bot2 as bot2s
-import bot1_m as bot1m
-import bot2_m as bot2m
+# import bot1_m as bot1m
+# import bot2_m as bot2m
 
 # Constants
 SIZE = 30
+TRIALS = 100
 CELL_SIZE = 15
-RANDOM_SEED = random.randint(0, 10000)
+RANDOM_SEED = 42
 GRID_WIDTH = SIZE
 GRID_HEIGHT = SIZE
 WINDOW_WIDTH = GRID_WIDTH * CELL_SIZE
 WINDOW_HEIGHT = GRID_HEIGHT * CELL_SIZE
-RESULT_FOLDER = "sim_gpt"
+RESULT_FOLDER = "sims"
 
 
-resultFolder = "results_gpt"
+resultFolder = "results_sims"
         
 def create_folder_if_not_exists(folder_path):
     if not os.path.exists(folder_path):
@@ -35,55 +36,52 @@ def write_to_file(bot_name, ship_size, alpha, trial, steps):
 
 # Main simulation logic
 create_folder_if_not_exists(RESULT_FOLDER)
-for alpha in [round(i, 2) for i in range(0, 51, 1)]:
-    alpha /= 100  # Scale ALPHA to increments of 0.02
-    for trial in range(1, 26):
-        random_seed = random.randint(0, 10000)
-        my_ship = Ship(SIZE, random_seed)
-        my_ship.createShip()
-        r_b, c_b = random.choice(my_ship.getOpenCells())
-        my_ship.start_botloc = (r_b, c_b)
-        rat_init = my_ship.getRatloc()
+my_ship = Ship(SIZE, RANDOM_SEED)
+my_ship.createShip()
+# for alpha in [round(i, 2) for i in range(0, 51, 1)]:
+alpha = .1 # Scale ALPHA to increments of 0.02
+my_ship.displayShip()
+for trial in range(TRIALS):
+    random_seed = random.randint(0,1000)
+    
+    
+    r_b, c_b = random.choice(my_ship.getOpenCells())
+    my_ship.start_botloc = (r_b, c_b)
+    rat_init = my_ship.getRatloc()
+    print(f"rat loc: {rat_init}")
+    print(f"bot loc: {r_b}, {c_b}")
 
-        # Bot 1 with stationary rat
-        my_ship.setRatloc(rat_init)
-        b1s_resultPath = resultFolder+"/b1s"
-        create_folder_if_not_exists(b1s_resultPath)
-        b1s_path = f"{b1s_resultPath}/{SIZE}_{alpha}_{trial}"
-        bot1s_bot = bot1s.Bot(my_ship, r_b, c_b,alpha=alpha, seed=RANDOM_SEED, resultPath = b1s_path)
-        getPos = bot1s_bot.findPosition()
-        steps1s = bot1s_bot.findRat()
-        write_to_file("bot1", SIZE, alpha, trial, steps1s)
+    # # Bot 1 with stationary rat
+    # my_ship.setRatloc(rat_init)
+    # b1s_resultPath = resultFolder+"/b1s"
+    # create_folder_if_not_exists(b1s_resultPath)
+    # b1s_path = f"{b1s_resultPath}/{SIZE}_{alpha}_{trial}"
+    # bot1s_bot = bot1s.Bot(my_ship, r_b, c_b,alpha=alpha, seed=RANDOM_SEED, resultPath = b1s_path)
+    # getPos = bot1s_bot.findPosition()
+    # steps1s = bot1s_bot.findRat()
+    # write_to_file("bot1", SIZE, alpha, trial, steps1s)
 
-        # Bot 1 with moving rat
-        my_ship.setRatloc(rat_init)
-        b1m_resultPath = resultFolder+"/b1m"
-        create_folder_if_not_exists(b1m_resultPath)
-        b1m_path = f"{b1m_resultPath}/{SIZE}_{alpha}_{trial}"
-        bot1m_bot = bot1m.Bot(my_ship, r_b, c_b,alpha=alpha, seed=RANDOM_SEED, resultPath = b1m_path)
-        getPos = bot1m_bot.findPosition()
-        steps1m = bot1m_bot.findRat()
-        write_to_file("bot1_m", SIZE, alpha, trial, steps1m)
+    # Bot 2 with stationary rat
+    my_ship.setRatloc(rat_init)
+    b2s_resultPath = resultFolder+"/b2s"
+    b2s_simPath = resultFolder+"/sims"
+    create_folder_if_not_exists(b2s_resultPath)
+    create_folder_if_not_exists(b2s_simPath)
+    b2s_path = f"{b2s_resultPath}/{SIZE}_{alpha}_{trial}"
+    bot2s_bot = bot2s.Bot(my_ship, r_b, c_b,alpha=alpha, seed=RANDOM_SEED, resultPath = b2s_path, simPath=b2s_simPath)
+    getPos = bot2s_bot.findPosition()
+    steps2s = bot2s_bot.findRat()
+    write_to_file("bot2", SIZE, alpha, trial, steps2s)
 
-        # Bot 2 with stationary rat
-        my_ship.setRatloc(rat_init)
-        b2s_resultPath = resultFolder+"/b2s"
-        create_folder_if_not_exists(b2s_resultPath)
-        b2s_path = f"{b2s_resultPath}/{SIZE}_{alpha}_{trial}"
-        bot2s_bot = bot2s.Bot(my_ship, r_b, c_b,alpha=alpha, seed=RANDOM_SEED, resultPath = b2s_path)
-        getPos = bot2s_bot.findPosition()
-        steps2s = bot2s_bot.findRat()
-        write_to_file("bot2", SIZE, alpha, trial, steps2s)
-
-        # Bot 2 with moving rat
-        my_ship.setRatloc(rat_init)
-        b2m_resultPath = resultFolder+"/b2m"
-        create_folder_if_not_exists(b2m_resultPath)
-        b2m_path = f"{b2m_resultPath}/{SIZE}_{alpha}_{trial}"
-        bot2m_bot = bot2m.Bot(my_ship, r_b, c_b,alpha=alpha,  seed=RANDOM_SEED, resultPath = b2m_path)
-        getPos = bot2m_bot.findPosition()
-        steps2m = bot2m_bot.findRat()
-        write_to_file("bot2_m", SIZE, alpha, trial, steps2m)
+    # # Bot 2 with moving rat
+    # my_ship.setRatloc(rat_init)
+    # b2m_resultPath = resultFolder+"/b2m"
+    # create_folder_if_not_exists(b2m_resultPath)
+    # b2m_path = f"{b2m_resultPath}/{SIZE}_{alpha}_{trial}"
+    # bot2m_bot = bot2m.Bot(my_ship, r_b, c_b,alpha=alpha,  seed=RANDOM_SEED, resultPath = b2m_path)
+    # getPos = bot2m_bot.findPosition()
+    # steps2m = bot2m_bot.findRat()
+    # write_to_file("bot2_m", SIZE, alpha, trial, steps2m)
 
 
 

@@ -19,8 +19,8 @@ from ship import Ship
 # from gui import GridGUI 
 import bot1 as bot1s
 import bot2 as bot2s
-import bot1_m as bot1m
-import bot2_m as bot2m
+# import bot1_m as bot1m
+# import bot2_m as bot2m
 
 # Constants
 SIZE = 30
@@ -56,36 +56,39 @@ rat_init = my_ship.getRatloc()
 
 
 
-### Bot 1 with stationary rat
+# ### Bot 1 with stationary rat
 # my_ship.setRatloc(rat_init)
 b1_resultPath = resultFolder+"/b1"
 create_folder_if_not_exists(b1_resultPath)
 b1_path = f"{b1_resultPath}/{SIZE}_{ALPHA}"
-my_bot1s = bot1s.Bot(my_ship, r_b, c_b,alpha=ALPHA, seed=RANDOM_SEED, resultPath = b1_path)
+my_bot1s = bot1s.Bot(my_ship, r_b, c_b,alpha=ALPHA, seed=RANDOM_SEED, resultPath = b1_path, )
 b1s_getPos = my_bot1s.findPosition()
 # bot1s_len = len(my_ship.ratPositions)
 steps1s = my_bot1s.findRat()
 bot1s_rat = my_ship.getRatPositions()
     
-### Bot 1 with moving rat
-my_ship.setRatloc(rat_init)
-b2_resultPath = resultFolder+"/b2"
-create_folder_if_not_exists(b2_resultPath)
-b2_path = f"{b2_resultPath}/{SIZE}_{ALPHA}"
-my_bot1m = bot1m.Bot(my_ship, r_b, c_b,alpha=ALPHA, seed=RANDOM_SEED, resultPath = b2_path)
-b1m_getPos = my_bot1m.findPosition()
-# bot1m_len = len(my_ship.ratPositions)
-steps1m = my_bot1m.findRat()
-bot1m_ratpos = my_ship.getRatPositions()
-bot1m_rat = my_ship.getRatloc()
+# ### Bot 1 with moving rat
+# my_ship.setRatloc(rat_init)
+# b2_resultPath = resultFolder+"/b2"
+# create_folder_if_not_exists(b2_resultPath)
+# b2_path = f"{b2_resultPath}/{SIZE}_{ALPHA}"
+# my_bot1m = bot1m.Bot(my_ship, r_b, c_b,alpha=ALPHA, seed=RANDOM_SEED, resultPath = b2_path)
+# b1m_getPos = my_bot1m.findPosition()
+# # bot1m_len = len(my_ship.ratPositions)
+# steps1m = my_bot1m.findRat()
+# bot1m_ratpos = my_ship.getRatPositions()
+# bot1m_rat = my_ship.getRatloc()
 
     
 ## Bot  2 with stationary rat
 my_ship.setRatloc(rat_init)
 b3_resultPath = resultFolder+"/b3"
+b3_simPath = resultFolder+"/sims"
 create_folder_if_not_exists(b3_resultPath)
+create_folder_if_not_exists(b3_simPath)
 b3_path = f"{b3_resultPath}/{SIZE}_{ALPHA}"
-my_bot2s = bot2s.Bot(my_ship, r_b, c_b,alpha=ALPHA, seed=RANDOM_SEED, resultPath = b3_path)
+sim_path = f"{b3_resultPath}"
+my_bot2s = bot2s.Bot(my_ship, r_b, c_b,alpha=ALPHA, seed=RANDOM_SEED, resultPath = b3_path, simPath=sim_path)
 b2s_getPos = my_bot2s.findPosition()
 steps2s = my_bot2s.findRat()
 bot2s_rat = my_ship.getRatPositions()
@@ -95,17 +98,17 @@ bot2s_rat = my_ship.getRatPositions()
 
 
 
-### Bot  2 with moving rat
-my_ship.setRatloc(rat_init)
-my_ship.setRatloc(rat_init)
-b4_resultPath = resultFolder+"/b4"
-create_folder_if_not_exists(b4_resultPath)
-b4_path = f"{b4_resultPath}/{SIZE}_{ALPHA}"
-my_bot2m = bot2m.Bot(my_ship, r_b, c_b,alpha=ALPHA,  seed=RANDOM_SEED, resultPath = b4_path)
-b2m_getPos = my_bot2m.findPosition()
-steps2m = my_bot2m.findRat()
-bot2m_ratpos = my_ship.getRatPositions()
-bot2m_rat = my_ship.getRatloc()
+# ### Bot  2 with moving rat
+# my_ship.setRatloc(rat_init)
+# my_ship.setRatloc(rat_init)
+# b4_resultPath = resultFolder+"/b4"
+# create_folder_if_not_exists(b4_resultPath)
+# b4_path = f"{b4_resultPath}/{SIZE}_{ALPHA}"
+# my_bot2m = bot2m.Bot(my_ship, r_b, c_b,alpha=ALPHA,  seed=RANDOM_SEED, resultPath = b4_path)
+# b2m_getPos = my_bot2m.findPosition()
+# steps2m = my_bot2m.findRat()
+# bot2m_ratpos = my_ship.getRatPositions()
+# bot2m_rat = my_ship.getRatloc()
     
     
 print("Baseline bot (stationary  rat)")
@@ -116,13 +119,13 @@ print(f"Steps for localization: {b1s_getPos}")
 print(f"Total steps:  {steps1s}, rat found at: {bot1s_rat}")
 # print(f"found rat at: {bot1s_rat}")
 
-print()
-print("Baseline bot (moving  rat)")
-print("------------------------------")
-# print(f"Baseline bot (moving  rat) len: {bot1m_len}")
-# print(f"Bot 1 rat: {bot1m_rat}")
-print(f"Steps for localization: {b1m_getPos}")
-print(f"Total steps:  {steps1m}, rat found at: {bot1m_rat}")
+# print()
+# print("Baseline bot (moving  rat)")
+# print("------------------------------")
+# # print(f"Baseline bot (moving  rat) len: {bot1m_len}")
+# # print(f"Bot 1 rat: {bot1m_rat}")
+# print(f"Steps for localization: {b1m_getPos}")
+# print(f"Total steps:  {steps1m}, rat found at: {bot1m_rat}")
 
 print()
 print("Improved bot (moving  rat)")
@@ -132,13 +135,13 @@ print(f"Steps for localization: {b2s_getPos}")
 # print(f"Bot 2 rat: {bot2s_rat}")
 print(f"Total steps: bot2s: {steps2s}, rat found at: {bot2s_rat}")
 
-print()
-print("Improved bot (moving  rat)")
-print("------------------------------")
-# print(f"Improved bot (moving  rat)len: {bot2m_len}")
-print(f"Steps for localization: {b2m_getPos}")
-# print(f"Bot 2 rat: {bot2m_rat}")
-print(f"Total steps: bot2m: {steps2m}, rat found at: {bot2m_rat}")
+# print()
+# print("Improved bot (moving  rat)")
+# print("------------------------------")
+# # print(f"Improved bot (moving  rat)len: {bot2m_len}")
+# print(f"Steps for localization: {b2m_getPos}")
+# # print(f"Bot 2 rat: {bot2m_rat}")
+# print(f"Total steps: bot2m: {steps2m}, rat found at: {bot2m_rat}")
 
 # # Input files for each GUI
 # files_and_titles = [

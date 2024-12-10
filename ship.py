@@ -4,7 +4,7 @@ from cell import Cell
 
 class Ship:
     def __init__(self, d, seed = None):
-        self.random = random.Random(seed)
+        self.random = random.Random(42)
         self.d = d
         self.open = []
         self.blocked = []
@@ -50,7 +50,7 @@ class Ship:
         self.ratPositions = [loc]
    
     def createRat(self):
-        rs, cs = self.random.choice(self.open)
+        rs, cs = random.choice(self.open)
         self.ratloc = (rs, cs)
         self.ratPositions.append(self.ratloc)
      
@@ -161,8 +161,8 @@ class Ship:
         
     def createShip(self):
         # open a random blocked blocked
-        r_init = random.randint(1, self.d-2)
-        c_init = random.randint(1, self.d-2)
+        r_init = self.random.randint(1, self.d-2)
+        c_init = self.random.randint(1, self.d-2)
         self.set_cellval(r_init,c_init, 'o')
         
         for r in range(1,self.d-1):
@@ -173,7 +173,7 @@ class Ship:
             
         #opening random cells with 1 open neighbour        
         while len(self.blocked1)>0:
-            (r_new, c_new) = random.choice(self.blocked1)
+            (r_new, c_new) = self.random.choice(self.blocked1)
             self.set_cellval(r_new, c_new, 'o')
             
             self.blocked1 = []
@@ -199,7 +199,7 @@ class Ship:
             dead_neighbors = []
             for r,c in self.deadend:
                 dead_neighbors.extend(self.getInnerBlockedNeighbours(r,c)) 
-            (r_new, c_new) = random.choice(dead_neighbors)
+            (r_new, c_new) = self.random.choice(dead_neighbors)
             self.set_cellval(r_new, c_new, 'o')
             cell_opened += 1
             self.deadend = []

@@ -1,10 +1,15 @@
 from ship import Ship
+import json
+import pandas as pd
+import os
+from datetime import datetime
 
 class Logger():
-    def __init__(self, size, ship, resultPath):
+    def __init__(self, size, ship, resultPath, simPath):
         self.size = size
         self.ship = ship
         self.resultPath = resultPath
+        self.simPath = simPath
         self.bot_start = (0,0)
 
     # Function to log metadata (grid size, bot, and switch location) to result.txt
@@ -46,6 +51,41 @@ class Logger():
             file.write("-" * 40 + "\n")      
             
             
+    def log_belief(self, belief_list, step_list , tot_steps, output_folder):
+        data = []
+        step_list = [tot_steps-steps for steps in step_list]
+        for array, integer in zip(belief_list, step_list):
+            array_as_string = array.tolist()  # Convert array to a nested list
+            data.append([array_as_string, integer])  # Store as record
+
+        # Create the DataFrame
+        df = pd.DataFrame(data, columns=["array", "integer"])
+        
+        # Generate a unique filename using timestamp
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+        csv_file = os.path.join(output_folder, f"{timestamp}.csv")
+
+        df.to_csv(csv_file, index=False)
+
+        print(f"Data saved to {csv_file}")
+
+        # for i in range(len(step_list)):
+            
+            
+            
+        #     # Convert the matrix to a JSON string (or any serializable format)
+        #     matrix_serialized = json.dumps(belief_list[i].tolist())
+
+        #     # Create a DataFrame with the serialized matrix as a single element
+        #     data = {"Matrix": [matrix_serialized]}
+        #     df = pd.DataFrame(data)
+        #     print(df)
+        #     # Save to CSV
+        #     output_file = "matrix.csv"
+        #     df.to_csv(output_file, index=False)
+
+        #     print(f"Matrix saved as a single element in {output_file}")
+        
     # Function to log the grid state to result.txt at each timestep
     def log_botposition(self,  timestep, bot_count):
         with open(self.resultPath, "a") as file:
