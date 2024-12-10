@@ -361,7 +361,7 @@ class Bot:
         loc = self.getloc()
         r, c= loc
         steps = 0
-        while rat_found ==0 and self.t<30: 
+        while rat_found ==0 : 
             self.logger.log_grid_state(self.t, self.getloc(), loc_rat)
             # self.logger.log_belief(self.belief)
             belief_list.append(self.belief)
