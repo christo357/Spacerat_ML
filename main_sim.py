@@ -11,7 +11,7 @@ import bot2 as bot2s
 
 # Constants
 SIZE = 30
-TRIALS = 500
+TRIALS = 1000
 CELL_SIZE = 15
 RANDOM_SEED = 42
 GRID_WIDTH = SIZE
@@ -39,7 +39,7 @@ create_folder_if_not_exists(RESULT_FOLDER)
 my_ship = Ship(SIZE, RANDOM_SEED)
 my_ship.createShip()
 # for alpha in [round(i, 2) for i in range(0, 51, 1)]:
-alpha = .1 # Scale ALPHA to increments of 0.02
+alpha = .1 
 my_ship.displayShip()
 for trial in range(TRIALS):
     random_seed = random.randint(0,1000)

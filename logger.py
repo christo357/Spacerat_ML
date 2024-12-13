@@ -63,7 +63,8 @@ class Logger():
             
     def log_belief(self, belief_list, step_list , tot_steps, output_folder):
         data = []
-        remaining_steps = [tot_steps-steps for steps in step_list]
+        # remaining_steps = [tot_steps-steps for steps in step_list]
+        remaining_steps = list(reversed(step_list))
         
         for belief, steps, r_steps in zip(belief_list, step_list, remaining_steps):
             belief_as_list = belief.tolist()  # Convert belief to a nested list
