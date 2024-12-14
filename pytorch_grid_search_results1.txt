@@ -1,0 +1,10 @@
+Parameters | Train Loss| Test Loss
+--------------------------------------------------
+batch_size:16, dropout_rate:0, filters:32, kernel_size:3, learning_rate:0.1, strides:1,  | 3275.4051 | 3251.3731
+batch_size:16, dropout_rate:0, filters:32, kernel_size:3, learning_rate:0.1, strides:2,  | 3275.4967 | 3249.4721
+batch_size:16, dropout_rate:0, filters:32, kernel_size:3, learning_rate:0.01, strides:1,  | 899.8562 | 963.7733
+batch_size:16, dropout_rate:0, filters:32, kernel_size:3, learning_rate:0.01, strides:2,  | 1003.0874 | 1030.7127
+batch_size:16, dropout_rate:0, filters:32, kernel_size:3, learning_rate:0.001, strides:1,  | 500.1502 | 558.7648
+batch_size:16, dropout_rate:0, filters:32, kernel_size:3, learning_rate:0.001, strides:2,  | 589.4568 | 661.1930
+batch_size:16, dropout_rate:0, filters:32, kernel_size:3, learning_rate:0.0001, strides:1,  | 1093.8743 | 1114.8686
+batch_size:16, dropout_rate:0, filters:32, kernel_size:3, learning_rate:0.0001, strides:2,  | 1372.3356 | 1369.0989

@@ -1,0 +1,6 @@
+Parameters | Train Loss| Test Loss
+--------------------------------------------------
+batch_size:16, dropout_rate:0, filters:2, kernel_size:3, learning_rate:0.001, strides:1,  | 825.6408 | 887.5415
+batch_size:16, dropout_rate:0, filters:4, kernel_size:3, learning_rate:0.001, strides:1,  | 832.5799 | 928.0662
+batch_size:16, dropout_rate:0, filters:8, kernel_size:3, learning_rate:0.001, strides:1,  | 758.8614 | 864.5623
+batch_size:16, dropout_rate:0, filters:16, kernel_size:3, learning_rate:0.001, strides:1,  | 705.7511 | 753.2892
