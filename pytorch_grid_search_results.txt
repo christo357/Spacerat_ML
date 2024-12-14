@@ -1,0 +1,18 @@
+Parameters | Train Loss| Test Loss
+--------------------------------------------------
+batch_size:16, dropout_rate:0, filters:16, kernel_size:3, learning_rate:0.1, strides:1,  | 3260.5310 | 3306.8743
+batch_size:16, dropout_rate:0, filters:16, kernel_size:3, learning_rate:0.01, strides:1,  | 876.3921 | 890.4354
+batch_size:16, dropout_rate:0, filters:16, kernel_size:3, learning_rate:0.001, strides:1,  | 634.5817 | 709.8686
+batch_size:16, dropout_rate:0, filters:16, kernel_size:3, learning_rate:0.0001, strides:1,  | 1511.9820 | 1504.5065
+batch_size:16, dropout_rate:0, filters:16, kernel_size:5, learning_rate:0.1, strides:1,  | 3260.5959 | 3306.7631
+batch_size:16, dropout_rate:0, filters:16, kernel_size:5, learning_rate:0.01, strides:1,  | 1071.4842 | 1151.4624
+batch_size:16, dropout_rate:0, filters:16, kernel_size:5, learning_rate:0.001, strides:1,  | 746.1893 | 792.6891
+batch_size:16, dropout_rate:0, filters:16, kernel_size:5, learning_rate:0.0001, strides:1,  | 1424.2682 | 1488.1323
+batch_size:16, dropout_rate:0, filters:32, kernel_size:3, learning_rate:0.1, strides:1,  | 3260.8330 | 3306.4814
+batch_size:16, dropout_rate:0, filters:32, kernel_size:3, learning_rate:0.01, strides:1,  | 955.2280 | 993.2580
+batch_size:16, dropout_rate:0, filters:32, kernel_size:3, learning_rate:0.001, strides:1,  | 654.8732 | 706.6421
+batch_size:16, dropout_rate:0, filters:32, kernel_size:3, learning_rate:0.0001, strides:1,  | 1472.5759 | 1448.0135
+batch_size:16, dropout_rate:0, filters:32, kernel_size:5, learning_rate:0.1, strides:1,  | 3261.2988 | 3306.9141
+batch_size:16, dropout_rate:0, filters:32, kernel_size:5, learning_rate:0.01, strides:1,  | 1061.1457 | 1059.4565
+batch_size:16, dropout_rate:0, filters:32, kernel_size:5, learning_rate:0.001, strides:1,  | 750.1824 | 786.6637
+batch_size:16, dropout_rate:0, filters:32, kernel_size:5, learning_rate:0.0001, strides:1,  | 1401.5811 | 1380.2843

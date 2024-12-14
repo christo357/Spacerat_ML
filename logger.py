@@ -25,13 +25,10 @@ class Logger():
                     ship_list[row][col] =0
         return ship_list.tolist()
                     
-    # Function to log metadata (grid size, bot, and switch location) to result.txt
     def log_metadata(self):
         
         with open(self.resultPath, "w") as file:
             file.write(f"Grid Size: {self.size}x{self.size}\n")
-            # file.write(f"Flammability: {ship.get_q()}\n")
-            # file.write(f'Bot : {bot.get_Id()}\n')
             bot_row, bot_col = self.ship.getStartBotLoc()
             rat_row, rat_col = self.ship.getRatloc()
             file.write(f"Initial Bot Location: ({bot_row}, {bot_col})\n")
@@ -43,11 +40,6 @@ class Logger():
             file.write(f"Timestep: {timestep}\n")
             for row in range(self.size):
                 for col in range(self.size):
-                    # if (row, col) == bot:
-                    #     v = 'B'
-                    # elif (row, col) == rat:
-                    #     v = "R"
-                    # else:
                     v = self.ship.get_cellval(row, col)
                     file.write(f"{v} ")
                 file.write("\n")
@@ -61,60 +53,31 @@ class Logger():
             file.write("-" * 40 + "\n")      
             
             
-    def log_belief(self, belief_list, step_list , tot_steps, output_folder):
+    def log_belief(self, belief_list, step_list , tot_steps,bot_loc, output_folder):
         data = []
-        # remaining_steps = [tot_steps-steps for steps in step_list]
         remaining_steps = list(reversed(step_list))
-        
+        (r, c)= bot_loc
+        self.ship_list[r][c] = -1
         for belief, steps, r_steps in zip(belief_list, step_list, remaining_steps):
-            belief_as_list = belief.tolist()  # Convert belief to a nested list
+            belief_as_list = belief.tolist()  
             
-            data.append([belief_as_list,self.ship_list,steps, r_steps])  # Store as record
-
-        # Create the DataFrame
+            data.append([belief_as_list,self.ship_list,steps, r_steps]) 
         df = pd.DataFrame(data, columns=["belief",
                                          "ship",
                                          "steps",
                                          "remain"])
         
-        # Generate a unique filename using timestamp
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
         csv_file = os.path.join(output_folder, f"{timestamp}.csv")
 
         df.to_csv(csv_file, index=False)
 
         print(f"Data saved to {csv_file}")
-
-        # for i in range(len(step_list)):
-            
-            
-            
-        #     # Convert the matrix to a JSON string (or any serializable format)
-        #     matrix_serialized = json.dumps(belief_list[i].tolist())
-
-        #     # Create a DataFrame with the serialized matrix as a single element
-        #     data = {"Matrix": [matrix_serialized]}
-        #     df = pd.DataFrame(data)
-        #     print(df)
-        #     # Save to CSV
-        #     output_file = "matrix.csv"
-        #     df.to_csv(output_file, index=False)
-
-        #     print(f"Matrix saved as a single element in {output_file}")
-        
-    # Function to log the grid state to result.txt at each timestep
+        return csv_file
+    
     def log_botposition(self,  timestep, bot_count):
         with open(self.resultPath, "a") as file:
             file.write(f"Timestep: {timestep}\n")
-            # for row in range(self.size):
-            #     for col in range(self.size):
-            #         file.write(self.ship.get_cellval(row, col))
-            #     file.write("\n")
-            # for i in range(bot_count):
-            #     bot_row, bot_col = self.ship.getBotLoc(i)
-            #     file.write(f"Bot {i+1}: ({bot_row}, {bot_col})\n")
-            # rat_row, rat_col = self.ship.getRatloc()
-            # file.write(f"Rat :{rat_row}, {rat_col}")
             for i in range(bot_count):
                 bot_row, bot_col = self.ship.getBotLoc(i)
                 file.write(f"({i}, {i})",end = ",")
@@ -122,14 +85,4 @@ class Logger():
             file.write(f"({rat_row}, {rat_col})")
             file.write("-" * 40 + "\n")
             
-    # def log_grid_state(self, timestep, botcount):
-    #     with open(self.resultPath, "a") as file:
-    #         file.write(f"Timestep: {timestep}\n")
-    #         for row in range(self.size):
-    #             for col in range(self.size):
-    #                 file.write(self.ship.get_cellval(row, col))
-    #             file.write("\n")
-            
-    #         file.write("-"*40+"\n")
-            
-            
+    

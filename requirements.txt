@@ -1,0 +1,10 @@
+ipykernel
+matplotlib
+matplotlib-inline
+numpy
+pandas
+pygame
+scikit-learn
+scipy
+torch
+torchvision

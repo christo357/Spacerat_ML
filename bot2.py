@@ -7,10 +7,11 @@ from cell import Cell
 from ship import Ship
 from astar import Astar
 from logger import Logger
+from eval_model import getSimulResults
 
 
 class Bot:
-    def __init__(self,  ship:Ship , r:int, c:int, alpha:float,  seed: int, resultPath: str, simPath: str ):
+    def __init__(self,  ship:Ship , r:int, c:int, alpha:float,  seed: int, resultPath: str, simPath: str,):
         self.random = random.Random(seed)
         self.id = 1
         self.r = r
@@ -45,6 +46,7 @@ class Bot:
         self.movdisp = []
         
         self.logger = Logger(self.shipSize, self.ship, self.resultPath, self.simPath)
+        # self.model = model
     
     
     def getStart(self):
@@ -364,6 +366,10 @@ class Bot:
         bot_find_steps = self.t
         while rat_found ==0 : 
             self.logger.log_grid_state(self.t, self.getloc(), loc_rat)
+            
+            
+            
+            
             # self.logger.log_belief(self.belief)
             belief_list.append(self.belief)
             step_list.append(steps)
@@ -419,5 +425,7 @@ class Bot:
                         self.belief[r,c] = 0
                     if loc == dest:
                         a_star = 0
-        self.logger.log_belief(belief_list, step_list, self.t, self.simPath)
+        data_file = self.logger.log_belief(belief_list, step_list, self.t, loc,self.simPath,)
+        print(f"file : {data_file}")
+        getSimulResults(dataPath=data_file)
         return self.t
